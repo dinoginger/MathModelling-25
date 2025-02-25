@@ -1,3 +1,6 @@
+# general
+.DS_Store
+
 # project 1
 Project_1_Optical_Flow/should-work-seq
 Project_1_Optical_Flow/should-break-seq
