@@ -2,8 +2,8 @@
 .DS_Store
 
 # project 1
-Project_1_Optical_Flow/should-work-seq
-Project_1_Optical_Flow/should-break-seq
-Project_1_Optical_Flow/optical_flow.ipynb
+project_1/should-work-seq
+project_1/should-break-seq
+project_1/optical_flow.ipynb
 
 # project 2
