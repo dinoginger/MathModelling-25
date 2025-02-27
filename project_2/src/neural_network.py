@@ -1,6 +1,7 @@
 import numpy as np
 import math
 from data_loader import load_to_np
+from visualise import plotpoints
 
 def apply_rotate(input, angle):
 
@@ -33,11 +34,6 @@ def apply_activation(input, activation='abs'):
 
 test_data = load_to_np('Libian_desert_data.csv')
 
-print(test_data.shape)
-print(-test_data)
-print(apply_activation(-test_data))
 
 
-
-#print(apply_rotate(test_data,math.pi))
-#print(apply_activation(test_data))
+plotpoints(apply_rotate(test_data,math.pi/4),(1200,800),(300,200))
