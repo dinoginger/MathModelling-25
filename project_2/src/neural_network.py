@@ -16,9 +16,9 @@ def apply_rotate(input, angle):
 
 def apply_bias(input, b):
     
-    input = np.transpose(input)
-    input[:,0:1] += b
-    input = np.transpose(input)
+    
+    input[:,0:2] += b
+   
     output = input
 
     return output
@@ -34,10 +34,10 @@ def apply_activation(input, activation='abs'):
 test_data = load_to_np('Libian_desert_data.csv')
 
 print(test_data.shape)
-print(apply_bias(test_data,np.random.randint(100,size=(240000))))
+print(-test_data)
+print(apply_activation(-test_data))
 
 
-#print(test_data)
 
 #print(apply_rotate(test_data,math.pi))
 #print(apply_activation(test_data))
