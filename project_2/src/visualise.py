@@ -7,6 +7,8 @@ def plotpoints(data,canvas_size,transpose):
     canvas = np.zeros((canvas_size[0],canvas_size[1],3))
     blue = np.array([0,0,150])
     green = np.array([0,150,0])
+    yellow = np.array([100,100,0])
+    red = np.array([150,0,0])
 
     for i in range(len(data)):
         x = int(data[i,0])
@@ -17,10 +19,18 @@ def plotpoints(data,canvas_size,transpose):
                 c = canvas[y + transpose[0],x + transpose[1]]
                 d = data[i,2]
                 if np.all(c == 0) and d == 0:
-                    canvas[y + transpose[0],x + transpose[1]] = blue
+                    canvas[y + transpose[0] - 1:y + transpose[0] + 1,x + transpose[1] - 1:x + transpose[1] - 1] = blue
                 if np.all(c == 0) and d == 1:
-                    canvas[y + transpose[0],x + transpose[1]] = green
-                
+                    canvas[y + transpose[0] - 1:y + transpose[0] + 1,x + transpose[1] - 1:x + transpose[1] - 1] = green
+                if np.all(c == green) and d == 0:
+                    canvas[y + transpose[0],x + transpose[1]] = red
+                if np.all(c == blue) and d == 1:
+                    canvas[y + transpose[0],x + transpose[1]] = red
+
+    
+    
+    canvas[transpose[0],:] = yellow
+    
 
 
     plt.imshow(canvas,interpolation='nearest')
