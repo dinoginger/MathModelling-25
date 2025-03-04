@@ -18,7 +18,7 @@ def apply_rotate(input, angle):
 def apply_bias(input, b):
     
     
-    input[:,0:2] += b
+    input[:,1] += b
    
     output = input
 
@@ -26,7 +26,8 @@ def apply_bias(input, b):
 
 def apply_activation(input, activation='abs'): 
     if activation == 'abs':
-        output = np.abs(input)
+        input[:,1] = np.abs(input[:,1])
+        output = input
     else:
         print('invalid activation function')
     
@@ -36,4 +37,4 @@ test_data = load_to_np('Libian_desert_data.csv')
 
 
 
-plotpoints(apply_rotate(test_data,math.pi/4),(1200,800),(300,200))
+plotpoints(apply_activation(apply_bias(test_data,100)),(1200,800),(0,0))
