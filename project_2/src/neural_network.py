@@ -1,40 +1,48 @@
 import numpy as np
 import math
+from typing import Optional
 from data_loader import load_to_np
 from visualise import plotpoints
 
-def apply_rotate(input, angle):
+def apply_rotate(input_array: np.ndarray, angle: float) -> np.ndarray:
 
-    input = np.transpose(input)
-
-    R = np.array([[math.cos(angle),-math.sin(angle),0],
+    rotator = np.array([[math.cos(angle),-math.sin(angle),0],
                   [math.sin(angle),math.cos(angle),0],
                   [0,0,1]])
-
-    output = np.transpose(R @ input)
-
-    return output
-
-def apply_bias(input, b):
     
-    
-    input[:,1] += b
-   
-    output = input
+    return np.transpose(rotator @ np.transpose(input_array))
 
-    return output
+def apply_bias(input_array: np.ndarray, b: float, columns = None) -> np.ndarray:
+    if columns is None:
+        input_array += b
+    else:
+        input_array[:, columns] += b
+    return input_array
 
-def apply_activation(input, activation='abs'): 
+def apply_activation(input_array: np.ndarray, activation: str = 'abs', columns = None) -> Optional[np.ndarray]:
     if activation == 'abs':
-        input[:,1] = np.abs(input[:,1])
-        output = input
+        if columns is None:
+            return np.abs(input_array)
+        else:
+            input_array_copy = input_array.copy()
+            for column_index in columns:
+                input_array_copy[:, column_index] = np.abs(input_array_copy[:, column_index])
+            return input_array_copy
     else:
         print('invalid activation function')
-    
-    return output
+        return None
 
+# data
 test_data = load_to_np('Libian_desert_data.csv')
 
+# parameters
+angle_to_rotate = 0
+bias = 0
+activation_functio = 'abs'
 
+# application
+rotated_data = apply_rotate(test_data, angle_to_rotate)
+biased_data = apply_bias(rotated_data, bias, columns=[0])
+activated_data = apply_activation(biased_data, activation='abs', columns=[0])
 
-plotpoints(apply_activation(apply_bias(test_data,100)),(1200,800),(0,0))
+plotpoints(activated_data, canvas_size=(1200, 1200), transpose=(10, 10))
