@@ -1,8 +1,8 @@
 import numpy as np
 import math
 from typing import Optional
-from data_loader import load_to_np
-from visualise import plotpoints
+from data_loader import *
+from visualise import *
 
 def apply_rotate(input_array: np.ndarray, angle: float) -> np.ndarray:
 
@@ -32,17 +32,29 @@ def apply_activation(input_array: np.ndarray, activation: str = 'abs', columns =
         print('invalid activation function')
         return None
 
-# data
-test_data = load_to_np('Libian_desert_data.csv')
+# Load the data
+data_loader = DataLoader()
+data = data_loader.get_train_test_val_split('Libian_desert_data.csv')
+
+# Extract the data sets - each contains (X, y) tuple
+X_train, y_train = data['train']
+X_test, y_test = data['test']
+X_val, y_val = data['val']
+
+# Combined datasets
+train_data = np.hstack((X_train, y_train))
+test_data = np.hstack((X_test, y_test))
+val_data = np.hstack((X_val, y_val))
 
 # parameters
-angle_to_rotate = 0
-bias = 0
+angle_to_rotate = math.pi/8
+bias = 200
 activation_functio = 'abs'
 
 # application
-rotated_data = apply_rotate(test_data, angle_to_rotate)
-biased_data = apply_bias(rotated_data, bias, columns=[0])
-activated_data = apply_activation(biased_data, activation='abs', columns=[0])
+rotated_test_data = apply_rotate(test_data, angle_to_rotate)
+biased_test_data = apply_bias(rotated_test_data, bias, columns=[0])
+activated_test_data = apply_activation(biased_test_data, activation='abs', columns=[0])
 
-plotpoints(activated_data, canvas_size=(1200, 1200), transpose=(10, 10))
+# Plotting
+plot_scatter_points(activated_test_data, [0, 0])

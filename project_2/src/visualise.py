@@ -1,40 +1,31 @@
 import numpy as np
 from matplotlib import pyplot as plt
-from data_loader import load_to_np
+from data_loader import *
 
-def plotpoints(data,canvas_size,transpose):
-
-    canvas = np.zeros((canvas_size[0],canvas_size[1],3))
-    blue = np.array([0,0,150])
-    green = np.array([0,150,0])
-    yellow = np.array([100,100,0])
-    red = np.array([150,0,0])
-
-    for i in range(len(data)):
-        x = int(data[i,0])
-        y = int(data[i,1])
-        
-        if x + transpose[1] >= 0 and x + transpose[1] < canvas_size[1]:
-            if y + transpose[0] >= 0 and y + transpose[0] < canvas_size[0]:
-                c = canvas[y + transpose[0],x + transpose[1]]
-                d = data[i,2]
-                if np.all(c == 0) and d == 0:
-                    canvas[y + transpose[0] - 1:y + transpose[0] + 1,x + transpose[1] - 1:x + transpose[1] - 1] = blue
-                if np.all(c == 0) and d == 1:
-                    canvas[y + transpose[0] - 1:y + transpose[0] + 1,x + transpose[1] - 1:x + transpose[1] - 1] = green
-                if np.all(c == green) and d == 0:
-                    canvas[y + transpose[0],x + transpose[1]] = red
-                if np.all(c == blue) and d == 1:
-                    canvas[y + transpose[0],x + transpose[1]] = red
-
+def plot_scatter_points(data, offset):
+    # Extract coordinates and classes
+    x_coords = data[:, 0] + offset[1]
+    y_coords = data[:, 1] + offset[0]
+    classes = data[:, 2]
     
+    # Create figure
+    plt.figure(figsize=(10, 8))
     
-    canvas[transpose[0],:] = yellow
+    # Plot class 0 points (blue)
+    mask_class0 = (classes == 0)
+    plt.scatter(x_coords[mask_class0], y_coords[mask_class0], 
+                c='blue', s=10, label='Class 0', alpha=0.7)
     
-
-
-    plt.imshow(canvas,interpolation='nearest')
+    # Plot class 1 points (green)
+    mask_class1 = (classes == 1)
+    plt.scatter(x_coords[mask_class1], y_coords[mask_class1], 
+                c='green', s=10, label='Class 1', alpha=0.7)
+    
+    plt.axvline(x=0, color='yellow', linestyle='-', linewidth=2)
+    
+    # Title stuff
+    plt.title("Neural Network Data Visualization")
+    plt.legend()
+    plt.axis('equal')
+    plt.grid(True, alpha=0.3)
     plt.show()
-
-
-test_data = load_to_np('Libian_desert_data.csv')
