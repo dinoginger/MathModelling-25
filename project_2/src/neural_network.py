@@ -33,6 +33,8 @@ def apply_activation(input_array: np.ndarray, activation: str = 'abs', columns=N
         return np.maximum(0, x)
     def _sigmoid_func(x):
         return 1 / (1 + np.exp(-x))
+    def _no_activation(x):
+        return x
 
     if activation == 'abs':
         act_func = _abs_func
@@ -40,6 +42,8 @@ def apply_activation(input_array: np.ndarray, activation: str = 'abs', columns=N
         act_func = _relu_func
     elif activation == 'sigmoid':
         act_func = _sigmoid_func
+    elif activation == 'none':
+        act_func = _no_activation
     else:
         print('Invalid activation function')
         return None
@@ -51,16 +55,3 @@ def apply_activation(input_array: np.ndarray, activation: str = 'abs', columns=N
         for c in columns:
             result[:, c] = act_func(result[:, c])
         return result
-
-data_loader = DataLoader()
-data = data_loader.get_train_test_val_split('Libian_desert_data.csv', scale_features=True, train_ratio=0.8, test_ratio=0.1, val_ratio=0.1)
-
-X_train, y_train = data['train']
-X_test, y_test = data['test'] 
-X_val, y_val = data['val']
-
-train_data = np.hstack((X_train, y_train))
-
-rotated_features = apply_rotate(X_train, angle=math.pi/4, columns=[0,1])
-rotated_train_data = np.column_stack((rotated_features, y_train))
-plot_scatter_points(rotated_train_data, [0, 0])
