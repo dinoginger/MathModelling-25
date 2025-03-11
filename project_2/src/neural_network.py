@@ -34,7 +34,7 @@ def apply_activation(input_array: np.ndarray, activation: str = 'abs', columns =
 
 # Load the data
 data_loader = DataLoader()
-data = data_loader.get_train_test_val_split('Libian_desert_data.csv')
+data = data_loader.get_train_test_val_split('Libian_desert_data.csv', scale_features=True)
 
 # Extract the data sets - each contains (X, y) tuple
 X_train, y_train = data['train']
@@ -47,8 +47,8 @@ test_data = np.hstack((X_test, y_test))
 val_data = np.hstack((X_val, y_val))
 
 # parameters
-angle_to_rotate = math.pi/8
-bias = 200
+angle_to_rotate = 0
+bias = 0
 activation_functio = 'abs'
 
 # application

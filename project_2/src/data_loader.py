@@ -11,6 +11,7 @@ class DataLoader:
             self.data_dir = r'/Users/linusjuni/Documents/General Engineering/6. Semester/Mathematical Modelling/Assignments/MathModelling-25/project_2/data'
         else:
             self.data_dir = data_dir
+        self.feature_scalers = None
     
     def load_to_np(self, input_data: str) -> np.ndarray:
         """
@@ -24,6 +25,29 @@ class DataLoader:
             os.chdir(current_dir)
         return data
     
+    def scale_features(self, X: np.ndarray, fit: bool = True) -> np.ndarray:
+        """
+        Scale features to [0, 1] range using min-max normalization.
+        """
+        if fit:
+            # Calculate min and max for each feature
+            self.feature_scalers = {
+                'min': np.min(X, axis=0),
+                'max': np.max(X, axis=0)
+            }
+        
+        if self.feature_scalers is None:
+            raise ValueError("No feature scalers available. Call with fit=True first.")
+        
+        # Avoid division by zero for constant features
+        denominator = self.feature_scalers['max'] - self.feature_scalers['min']
+        denominator[denominator == 0] = 1.0
+        
+        # Apply min-max scaling
+        X_scaled = (X - self.feature_scalers['min']) / denominator
+        
+        return X_scaled
+    
     def get_train_test_val_split(self, 
                                  input_data: str,
                                  feature_cols: Optional[np.ndarray] = None, 
@@ -32,7 +56,8 @@ class DataLoader:
                                  test_ratio: float = 0.1,
                                  val_ratio: float = 0.1,
                                  shuffle: bool = True,
-                                 random_seed: Optional[int] = 42) -> Dict[str, Tuple[np.ndarray, np.ndarray]]:
+                                 random_seed: Optional[int] = 69,
+                                 scale_features: bool = False) -> Dict[str, Tuple[np.ndarray, np.ndarray]]:
         """
         Load and split data into training, testing, and validation sets.
         """
@@ -69,6 +94,12 @@ class DataLoader:
         X_train, y_train = X[:train_end], y[:train_end]
         X_test, y_test = X[train_end:test_end], y[train_end:test_end]
         X_val, y_val = X[test_end:], y[test_end:]
+        
+        # Scale features if requested
+        if scale_features:
+            X_train = self.scale_features(X_train, fit=True)
+            X_test = self.scale_features(X_test, fit=False)
+            X_val = self.scale_features(X_val, fit=False)
         
         return {
             'train': (X_train, y_train),
