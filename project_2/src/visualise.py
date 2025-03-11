@@ -21,7 +21,7 @@ def plot_scatter_points(data, offset):
     plt.scatter(x_coords[mask_class1], y_coords[mask_class1], 
                 c='green', s=10, label='Class 1', alpha=0.7)
     
-    plt.axvline(x=0, color='yellow', linestyle='-', linewidth=2)
+    #plt.axvline(x=0, color='yellow', linestyle='-', linewidth=2)
     
     # Title stuff
     plt.title("Neural Network Data Visualization")
