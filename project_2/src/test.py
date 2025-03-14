@@ -116,24 +116,48 @@ print("Building neural network and visualizing transformations...")
 model = NeuralNetwork()
 
 print("Adding layer 1...")
-model.add_layer(Layer(rotation_angle=0.60 * np.pi, bias=500, activation='abs', columns=[0, 1]))
-model.visualize_current_transformation(X_train, y_train)
-
-#print("Adding layer 2...")
-#model.add_layer(Layer(rotation_angle=0*np.pi, bias=-95, activation='abs', columns=[0, 1]))
+model.add_layer(Layer(rotation_angle=-0.42 * np.pi, bias=-54, activation='abs', columns=[0, 1]))
 #model.visualize_current_transformation(X_train, y_train)
 
-#print("Adding layer 3...")
-#model.add_layer(Layer(rotation_angle=-0.15*np.pi, bias=-60, activation='abs', columns=[0, 1]))
+print("Adding layer 2...")
+model.add_layer(Layer(rotation_angle=0.05*np.pi, bias=-26, activation='abs', columns=[0, 1]))
+#model.visualize_current_transformation(X_train, y_train)
+
+print("Adding layer 3...")
+model.add_layer(Layer(rotation_angle=0.12*np.pi, bias=-70, activation='abs', columns=[0, 1]))
 #model.visualize_current_transformation(X_train, y_train)
 
 print("Adding layer 4...")
-model.add_layer(Layer(rotation_angle=-0.10*np.pi, bias=-90, activation='abs', columns=[0, 1]))
+model.add_layer(Layer(rotation_angle=0.0*np.pi, bias=-35, activation='abs', columns=[0, 1]))
 #model.visualize_current_transformation(X_train, y_train)
+
+print("Adding layer 5...")
+model.add_layer(Layer(rotation_angle=-0.14*np.pi, bias=-40, activation='abs', columns=[0, 1]))
+#model.visualize_current_transformation(X_train, y_train)
+
+print("Adding layer 6...")
+model.add_layer(Layer(rotation_angle=0.05*np.pi, bias=-30, activation='abs', columns=[0, 1]))
+#model.visualize_current_transformation(X_train, y_train)
+
+print("Adding layer 7...")
+model.add_layer(Layer(rotation_angle=-0.17*np.pi, bias=-14, activation='abs', columns=[0, 1]))
+#model.visualize_current_transformation(X_train, y_train)
+
+print("Adding layer 8...")
+model.add_layer(Layer(rotation_angle=-0.34*np.pi, bias=80, activation='abs', columns=[0, 1]))
+#model.visualize_current_transformation(X_train, y_train)
+
+print("Adding layer 9...")
+model.add_layer(Layer(rotation_angle=0.17*np.pi, bias=-60, activation='abs', columns=[0, 1]))
+model.visualize_current_transformation(X_train, y_train)
+
+print("Adding layer 10...")
+model.add_layer(Layer(rotation_angle=-0.20*np.pi, bias=0, activation='none', columns=[0, 1]))
+model.visualize_current_transformation(X_train, y_train)
 
 
 print("Adding layer final layer for visualisation.")
-model.add_layer(Layer(rotation_angle=-0.24 * np.pi, bias=-10, activation='none', columns=[0, 1]))
+#model.add_layer(Layer(rotation_angle=-0.24 * np.pi, bias=-10, activation='none', columns=[0, 1]))
 #model.visualize_current_transformation(X_train, y_train)
 
 # Step 3: Evaluate the model
