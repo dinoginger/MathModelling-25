@@ -60,6 +60,28 @@ class NeuralNetwork:
         predictions = self.predict(X)
         accuracy = accuracy_score(y.flatten(), predictions)
         return accuracy
+    
+    def visualize_current_transformation(self, X, y):
+        """
+        Visualize the data after passing through all layers currently in the model
+        """
+        # Apply all current transformations
+        transformed_X = self.forward(X)
+        
+        # Combine with labels for visualization
+        transformed_data = np.hstack((transformed_X, y))
+        
+        # Create meaningful title
+        num_layers = len(self.layers)
+        if num_layers > 0:
+            last_layer = self.layers[-1]
+            title = f"After {num_layers} Layer(s)\nLast layer: Rotation={last_layer.rotation_angle:.2f}, Bias={last_layer.bias:.2f}, Activation={last_layer.activation}"
+        else:
+            title = "Original Data"
+        
+        # Plot the transformed data
+        plot_scatter_points(transformed_data, [0, 0], title)
+        plt.show()
 
 def main():
     """Main function to run the experiment"""
@@ -69,7 +91,7 @@ def main():
     data_loader = DataLoader()
     data = data_loader.get_train_test_val_split(
         'Libian_desert_data.csv', 
-        scale_features=True,
+        scale_features=False,
         train_ratio=0.9,
         test_ratio=0.1,
         val_ratio=0.0,
@@ -78,24 +100,33 @@ def main():
     X_train, y_train = data['train']
     X_test, y_test = data['test']
     
-    #print("Visualizing original data...")
+    print("Visualizing original data...")
     train_data = np.hstack((X_train, y_train))
-    #plot_scatter_points(train_data, [0, 0])
+    plot_scatter_points(train_data, [0, 0])
     
-    # Step 2: Build an 8-layer network
-    print("Building neural network with 8 layers...")
+    # Step 2: Build a network layer by layer with visualization
+    print("Building neural network and visualizing transformations...")
     model = NeuralNetwork()
     
-    # Add 8 layers with carefully chosen parameters
-    # These parameters can be tuned for optimal performance
-    model.add_layer(Layer(rotation_angle=np.pi/2, bias=0, activation='abs', columns=[0, 1]))
-    model.add_layer(Layer(rotation_angle=np.pi/8, bias=-0.2, activation='abs', columns=[0, 1]))
-    model.add_layer(Layer(rotation_angle=np.pi/6, bias=0.1, activation='abs', columns=[0, 1]))
-    model.add_layer(Layer(rotation_angle=np.pi/3, bias=-0.1, activation='abs', columns=[0, 1]))
-    model.add_layer(Layer(rotation_angle=np.pi/12, bias=0.2, activation='abs', columns=[0, 1]))
-    model.add_layer(Layer(rotation_angle=np.pi/5, bias=-0.3, activation='abs', columns=[0, 1]))
-    model.add_layer(Layer(rotation_angle=np.pi/10, bias=0.15, activation='abs', columns=[0, 1]))
-    model.add_layer(Layer(rotation_angle=0, bias=-0.4, activation='none', columns=[0, 1]))
+    # Add first layer and visualize
+    print("Adding layer 1...")
+    model.add_layer(Layer(rotation_angle=0, bias=-300, activation='abs', columns=[0, 1]))
+    model.visualize_current_transformation(X_train, y_train)
+    
+    # Add second layer and visualize
+    print("Adding layer 2...")
+    model.add_layer(Layer(rotation_angle=0.44 * np.pi, bias=300, activation='abs', columns=[0, 1]))
+    model.visualize_current_transformation(X_train, y_train)
+    
+    # Add final layer and visualize
+    print("Adding layer 3...")
+    model.add_layer(Layer(rotation_angle=0, bias=0, activation='none', columns=[0, 1]))
+    model.visualize_current_transformation(X_train, y_train)
+    
+    # Uncomment and add more layers as needed
+    #print("Adding layer X...")
+    #model.add_layer(Layer(rotation_angle=np.pi/6, bias=0.1, activation='abs', columns=[0, 1]))
+    #model.visualize_current_transformation(X_train, y_train)
     
     # Step 3: Evaluate the model
     print("Evaluating model...")
@@ -107,3 +138,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+#TODO: make plots for each model.layer added!

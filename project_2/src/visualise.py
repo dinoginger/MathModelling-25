@@ -2,7 +2,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from data_loader import *
 
-def plot_scatter_points(data, offset):
+def plot_scatter_points(data, offset, title=None):
     # Extract coordinates and classes
     x_coords = data[:, 0] + offset[1]
     y_coords = data[:, 1] + offset[0]
@@ -24,7 +24,10 @@ def plot_scatter_points(data, offset):
     #plt.axvline(x=0, color='yellow', linestyle='-', linewidth=2)
     
     # Title stuff
-    plt.title("Neural Network Data Visualization")
+    if title is not None:
+        plt.title(title)
+    else:
+        plt.title("Neural Network Data Visualization")
     plt.legend()
     plt.axis('equal')
     plt.grid(True, alpha=0.3)
