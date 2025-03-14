@@ -56,11 +56,6 @@ class NeuralNetwork:
             threshold = 0
 
         activated_output = apply_activation(final_output[:, 0], activation)
-        result = (activated_output > threshold).astype(int)
-        num_ones = np.sum(result == 1)
-        num_zeros = np.sum(result == 0)
-        print(f"Number of 1's: {num_ones}")
-        print(f"Number of 0's: {num_zeros}")
         return (activated_output > threshold).astype(int)
 
     def evaluate(self, X, y):
@@ -114,49 +109,57 @@ plot_scatter_points(train_data, [0, 0])
 print("Building neural network and visualizing transformations...")
 model = NeuralNetwork()
 
+def rotate_bias_activate_plot(model, X, y, rotation_angle=0, bias=0, activation='abs', columns=[0, 1]):
+    """
+    Rotates and applies bias (with no activation), plots,
+    then applies the specified activation, and plots again.
+    """
+    model.add_layer(Layer(rotation_angle=rotation_angle, bias=bias, activation='none', columns=columns))
+    model.visualize_current_transformation(X, y)
+    
+    model.add_layer(Layer(rotation_angle=0, bias=0, activation=activation, columns=columns))
+    model.visualize_current_transformation(X, y)
+
 print("Adding layer 1...")
-model.add_layer(Layer(rotation_angle=0, bias=-300, activation='abs', columns=[0, 1]))
-model.visualize_current_transformation(X_train, y_train)
+rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=0, bias=-300, activation='abs')
 
 print("Adding layer 2...")
-model.add_layer(Layer(rotation_angle=0.44*np.pi, bias=420, activation='abs', columns=[0, 1]))
-model.visualize_current_transformation(X_train, y_train)
+rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=0.44*np.pi, bias=420, activation='abs')
 
 print("Adding layer 3...")
-model.add_layer(Layer(rotation_angle=-0.08*np.pi, bias=-130, activation='abs', columns=[0, 1]))
-model.visualize_current_transformation(X_train, y_train)
+rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=-0.08*np.pi, bias=-130, activation='abs')
 
 print("Adding layer 4...")
-model.add_layer(Layer(rotation_angle=-0.05*np.pi, bias=-65, activation='abs', columns=[0, 1]))
-model.visualize_current_transformation(X_train, y_train)
+rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=-0.05*np.pi, bias=-65, activation='abs')
 
 print("Adding layer 5...")
-model.add_layer(Layer(rotation_angle=0.08*np.pi, bias=-250, activation='abs', columns=[0, 1]))
-model.visualize_current_transformation(X_train, y_train)
+rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=0.08*np.pi, bias=-250, activation='abs')
 
 print("Adding layer 6...")
-model.add_layer(Layer(rotation_angle=0.1*np.pi, bias=-10, activation='abs', columns=[0, 1]))
-model.visualize_current_transformation(X_train, y_train)
+rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=0.1*np.pi, bias=-10, activation='abs')
 
 print("Adding layer 7...")
-model.add_layer(Layer(rotation_angle=0*np.pi, bias=-60, activation='abs', columns=[0, 1]))
-model.visualize_current_transformation(X_train, y_train)
+rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=0, bias=-60, activation='abs')
 
 print("Adding layer 8...")
-model.add_layer(Layer(rotation_angle=-0.12*np.pi, bias=-80, activation='none', columns=[0, 1]))
-model.visualize_current_transformation(X_train, y_train)
+rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=-0.12*np.pi, bias=-80, activation='abs')
 
-print("Adding layer final layer for visualisation.")
-model.add_layer(Layer(rotation_angle=0, bias=0, activation='none', columns=[0, 1]))
-model.visualize_current_transformation(X_train, y_train)
+print("Adding layer 9...")
+rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=0.1*np.pi, bias=20, activation='abs')
+
+print("Adding layer 10...")
+rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=0, bias=-35, activation='abs')
+
+print("Adding layer 11...")
+rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=0.25*np.pi, bias=150, activation='none')
 
 # Step 3: Evaluate the model
 print("Evaluating model on training dataset...")
 train_accuracy = model.evaluate(X_train, y_train)
-print("Evaluating model on training dataset...")
-test_accuracy = model.evaluate(X_test, y_test)
-
 print(f"Training accuracy: {train_accuracy:.4f}")
+
+print("Evaluating model on testing dataeset...")
+test_accuracy = model.evaluate(X_test, y_test)
 print(f"Test accuracy: {test_accuracy:.4f}")
 
 # %%

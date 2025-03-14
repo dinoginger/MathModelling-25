@@ -21,7 +21,8 @@ def plot_scatter_points(data, offset, title=None):
     plt.scatter(x_coords[mask_class1], y_coords[mask_class1], 
                 c='green', s=10, label='Class 1', alpha=0.1)
     
-    plt.axvline(x=0, color='yellow', linestyle='-', linewidth=2)
+    plt.axvline(x=0, color='red', linestyle='-', linewidth=4)
+    plt.axhline(y=0, color='red', linestyle='-', linewidth=4)
     
     # Title stuff
     if title is not None:
