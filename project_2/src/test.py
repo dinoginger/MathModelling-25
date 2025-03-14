@@ -18,10 +18,11 @@ class Layer:
         self.columns = columns
     
     def forward(self, input_data):
-        # Apply the three transformations in sequence
         output = apply_rotate(input_data, self.rotation_angle, self.columns)
-        output = apply_bias(output, self.bias, self.columns[0])
-        output = apply_activation(output, self.activation, self.columns)
+        
+        bias_cols = [self.columns[0]] if self.columns is not None else None
+        output = apply_bias(output, self.bias, bias_cols)
+        output = apply_activation(output, self.activation, bias_cols)
         return output
 
 # %%
@@ -121,37 +122,10 @@ def rotate_bias_activate_plot(model, X, y, rotation_angle=0, bias=0, activation=
     model.visualize_current_transformation(X, y)
 
 print("Adding layer 1...")
-rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=0, bias=-300, activation='abs')
-
-print("Adding layer 2...")
-rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=0.44*np.pi, bias=420, activation='abs')
-
-print("Adding layer 3...")
-rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=-0.08*np.pi, bias=-130, activation='abs')
-
-print("Adding layer 4...")
-rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=-0.05*np.pi, bias=-65, activation='abs')
-
-print("Adding layer 5...")
-rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=0.08*np.pi, bias=-250, activation='abs')
-
-print("Adding layer 6...")
-rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=0.1*np.pi, bias=-10, activation='abs')
-
-print("Adding layer 7...")
-rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=0, bias=-60, activation='abs')
-
-print("Adding layer 8...")
-rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=-0.12*np.pi, bias=-80, activation='abs')
-
-print("Adding layer 9...")
-rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=0.1*np.pi, bias=20, activation='abs')
-
-print("Adding layer 10...")
-rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=0, bias=-35, activation='abs')
-
-print("Adding layer 11...")
-rotate_bias_activate_plot(model, X_train, y_train, rotation_angle=0.25*np.pi, bias=150, activation='none')
+rotate_bias_activate_plot(model, X_train, y_train, 
+                          rotation_angle=0, 
+                          bias=-300, 
+                          activation='abs')
 
 # Step 3: Evaluate the model
 print("Evaluating model on training dataset...")
