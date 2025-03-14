@@ -30,9 +30,7 @@ def plot_scatter_points(data, offset, title=None):
         plt.title("Neural Network Data Visualization")
     plt.legend()
     
-    # Set fixed axis limits instead of equal aspect ratio
-    plt.xlim(-600, 600)
-    plt.ylim(-600, 600)
-    
+    plt.axis('equal')
+
     plt.grid(True, alpha=0.3)
     plt.show()

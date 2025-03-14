@@ -8,7 +8,7 @@ class DataLoader:
         Initialize the DataLoader with a specified data directory.
         """
         if data_dir is None:
-            self.data_dir = r'/Users/linusjuni/Documents/General Engineering/6. Semester/Mathematical Modelling/Assignments/MathModelling-25/project_2/data'
+            self.data_dir = r'C:\Users\askha\Documents\Math Mod\MathModelling-25\project_2\data'
         else:
             self.data_dir = data_dir
         self.feature_scalers = None
