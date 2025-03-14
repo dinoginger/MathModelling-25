@@ -118,15 +118,16 @@ def main():
     model.add_layer(Layer(rotation_angle=0.44 * np.pi, bias=300, activation='abs', columns=[0, 1]))
     model.visualize_current_transformation(X_train, y_train)
     
+    # Add X layer and visualize
+    print("Adding layer X...")
+    model.add_layer(Layer(rotation_angle=0, bias=0, activation='abs', columns=[0, 1]))
+    model.visualize_current_transformation(X_train, y_train)
+
     # Add final layer and visualize
-    print("Adding layer 3...")
+    print("Adding layer final layer for visualisation.")
     model.add_layer(Layer(rotation_angle=0, bias=0, activation='none', columns=[0, 1]))
     model.visualize_current_transformation(X_train, y_train)
     
-    # Uncomment and add more layers as needed
-    #print("Adding layer X...")
-    #model.add_layer(Layer(rotation_angle=np.pi/6, bias=0.1, activation='abs', columns=[0, 1]))
-    #model.visualize_current_transformation(X_train, y_train)
     
     # Step 3: Evaluate the model
     print("Evaluating model...")
