@@ -1,3 +1,4 @@
+# %%
 import numpy as np
 import matplotlib.pyplot as plt
 from data_loader import DataLoader
@@ -5,6 +6,7 @@ from neural_network import apply_rotate, apply_bias, apply_activation
 from visualise import plot_scatter_points
 from sklearn.metrics import accuracy_score
 
+# %%
 class Layer:
     """
     A single layer in the neural network that applies geometric transformations
@@ -13,15 +15,16 @@ class Layer:
         self.rotation_angle = rotation_angle
         self.bias = bias
         self.activation = activation
-        self.columns = columns  # Which columns to apply transformations to
+        self.columns = columns
     
     def forward(self, input_data):
         # Apply the three transformations in sequence
         output = apply_rotate(input_data, self.rotation_angle, self.columns)
-        output = apply_bias(output, self.bias, self.columns)
+        output = apply_bias(output, self.bias, self.columns[0])
         output = apply_activation(output, self.activation, self.columns)
         return output
 
+# %%
 class NeuralNetwork:
     """
     A neural network composed of multiple layers using geometric transformations
@@ -83,61 +86,55 @@ class NeuralNetwork:
         plot_scatter_points(transformed_data, [0, 0], title)
         plt.show()
 
-def main():
-    """Main function to run the experiment"""
-    
-    # Step 1: Load and visualize data
-    print("Loading data...")
-    data_loader = DataLoader()
-    data = data_loader.get_train_test_val_split(
-        'Libian_desert_data.csv', 
-        scale_features=False,
-        train_ratio=0.9,
-        test_ratio=0.1,
-        val_ratio=0.0,
-    )
-    
-    X_train, y_train = data['train']
-    X_test, y_test = data['test']
-    
-    print("Visualizing original data...")
-    train_data = np.hstack((X_train, y_train))
-    plot_scatter_points(train_data, [0, 0])
-    
-    # Step 2: Build a network layer by layer with visualization
-    print("Building neural network and visualizing transformations...")
-    model = NeuralNetwork()
-    
-    # Add first layer and visualize
-    print("Adding layer 1...")
-    model.add_layer(Layer(rotation_angle=0, bias=-300, activation='abs', columns=[0, 1]))
-    model.visualize_current_transformation(X_train, y_train)
-    
-    # Add second layer and visualize
-    print("Adding layer 2...")
-    model.add_layer(Layer(rotation_angle=0.44 * np.pi, bias=300, activation='abs', columns=[0, 1]))
-    model.visualize_current_transformation(X_train, y_train)
-    
-    # Add X layer and visualize
-    print("Adding layer X...")
-    model.add_layer(Layer(rotation_angle=0, bias=0, activation='abs', columns=[0, 1]))
-    model.visualize_current_transformation(X_train, y_train)
+# %%
+# Step 1: Load and visualize data
+print("Loading data...")
+data_loader = DataLoader()
+data = data_loader.get_train_test_val_split(
+    'Libian_desert_data.csv', 
+    scale_features=False,
+    train_ratio=0.9,
+    test_ratio=0.1,
+    val_ratio=0.0,
+)
 
-    # Add final layer and visualize
-    print("Adding layer final layer for visualisation.")
-    model.add_layer(Layer(rotation_angle=0, bias=0, activation='none', columns=[0, 1]))
-    model.visualize_current_transformation(X_train, y_train)
-    
-    
-    # Step 3: Evaluate the model
-    print("Evaluating model...")
-    train_accuracy = model.evaluate(X_train, y_train)
-    test_accuracy = model.evaluate(X_test, y_test)
-    
-    print(f"Training accuracy: {train_accuracy:.4f}")
-    print(f"Test accuracy: {test_accuracy:.4f}")
+X_train, y_train = data['train']
+X_test, y_test = data['test']
 
-if __name__ == "__main__":
-    main()
+print("Visualizing original data...")
+train_data = np.hstack((X_train, y_train))
+plot_scatter_points(train_data, [0, 0])
 
-#TODO: make plots for each model.layer added!
+# Step 2: Build a network layer by layer with visualization
+print("Building neural network and visualizing transformations...")
+model = NeuralNetwork()
+
+# Add first layer and visualize
+print("Adding layer 1...")
+model.add_layer(Layer(rotation_angle=0, bias=-300, activation='abs', columns=[0, 1]))
+model.visualize_current_transformation(X_train, y_train)
+
+# Add second layer and visualize
+print("Adding layer 2...")
+model.add_layer(Layer(rotation_angle=0.44 * np.pi, bias=300, activation='abs', columns=[0, 1]))
+#model.visualize_current_transformation(X_train, y_train)
+
+# Add X layer and visualize
+print("Adding layer X...")
+model.add_layer(Layer(rotation_angle=0, bias=0, activation='abs', columns=[0, 1]))
+#model.visualize_current_transformation(X_train, y_train)
+
+# Add final layer and visualize
+print("Adding layer final layer for visualisation.")
+model.add_layer(Layer(rotation_angle=0, bias=0, activation='none', columns=[0, 1]))
+#model.visualize_current_transformation(X_train, y_train)
+
+# Step 3: Evaluate the model
+print("Evaluating model...")
+train_accuracy = model.evaluate(X_train, y_train)
+#test_accuracy = model.evaluate(X_test, y_test)
+
+#print(f"Training accuracy: {train_accuracy:.4f}")
+#print(f"Test accuracy: {test_accuracy:.4f}")
+
+# %%
