@@ -1,7 +1,7 @@
 # %%
 import numpy as np
 import matplotlib.pyplot as plt
-from data_loader import DataLoader
+from data_loader import *
 from neural_network import apply_rotate, apply_bias, apply_activation
 from visualise import plot_scatter_points
 from sklearn.metrics import accuracy_score
@@ -123,9 +123,32 @@ def rotate_bias_activate_plot(model, X, y, rotation_angle=0, bias=0, activation=
 
 print("Adding layer 1...")
 rotate_bias_activate_plot(model, X_train, y_train, 
-                          rotation_angle=0, 
-                          bias=-300, 
+                          rotation_angle=0.6*np.pi, 
+                          bias=500, 
                           activation='abs')
+
+print("Adding layer 2...")
+rotate_bias_activate_plot(model, X_train, y_train, 
+                          rotation_angle=0*np.pi, 
+                          bias=-95, 
+                          activation='abs')
+
+print("Adding layer 3...")
+rotate_bias_activate_plot(model, X_train, y_train, 
+                          rotation_angle=-0.15*np.pi, 
+                          bias=-60, 
+                          activation='abs')
+
+rotate_bias_activate_plot(model, X_train, y_train, 
+                          rotation_angle=-0.1*np.pi, 
+                          bias=-90, 
+                          activation='abs')
+
+print("Adding layer final...")
+rotate_bias_activate_plot(model, X_train, y_train, 
+                          rotation_angle=-0.24*np.pi, 
+                          bias=-10, 
+                          activation='none')
 
 # Step 3: Evaluate the model
 print("Evaluating model on training dataset...")

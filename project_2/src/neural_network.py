@@ -2,7 +2,6 @@ import numpy as np
 import math
 from typing import Optional, List, Tuple, Dict
 from data_loader import *
-from visualise import *
 
 def apply_rotate(input_array: np.ndarray, angle: float, columns = None) -> np.ndarray:
 
