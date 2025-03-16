@@ -110,23 +110,27 @@ class DataLoader:
         }
     
     
-def load_image_to_array(image_path: str) -> np.ndarray:
-            """
-            Load a black and white PNG image and return an array of the coordinates of each pixel and its value (1 for white, 0 for black).
-            """
-            # Open the image
-            image = Image.open(image_path).convert('L')  # Convert to grayscale
-            
-            # Convert image to numpy array
-            image_array = np.array(image)
-            
-            # Get the coordinates of each pixel
-            coords = np.column_stack(np.where(image_array < 128))  # Assuming threshold of 128 for black and white
-            
-            # Get the values of each pixel (1 for white, 0 for black)
-            values = (image_array[coords[:, 0], coords[:, 1]] > 128).astype(int)
-            
-            # Combine coordinates and values
-            result = np.column_stack((coords, values))
-            
-            return result
+def load_image_to_array(image_path: str, output_csv: str) -> np.ndarray:
+    """
+    Load a black and white PNG image and return an array of the coordinates of each pixel and its value (1 for white, 0 for black).
+    Save the array as a CSV file.
+    """
+    # Open the image
+    image = Image.open(image_path).convert('L')  # Convert to grayscale
+    
+    # Convert image to numpy array
+    image_array = np.array(image)
+    
+    # Get the coordinates of each pixel
+    coords = np.column_stack(np.where(image_array > -1))  # Assuming threshold of 128 for black and white
+    
+    # Get the values of each pixel (1 for white, 0 for black)
+    values = (image_array[coords[:, 0], coords[:, 1]] < 128).astype(int)
+    
+    # Combine coordinates and values
+    result = np.column_stack((coords, values))
+    
+    # Save the array as a CSV file
+    np.savetxt(output_csv, result, delimiter=',', fmt='%d', header='x,y,value', comments='')
+    
+    return result

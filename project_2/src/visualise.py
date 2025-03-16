@@ -30,7 +30,7 @@ def plot_scatter_points(data, offset, title=None):
         plt.title("Neural Network Data Visualization")
     plt.legend()
     
-    plt.axis('equal')
+    #plt.axis('equal')
 
     plt.grid(True, alpha=0.3)
     plt.show()

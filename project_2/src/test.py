@@ -1,7 +1,7 @@
 # %%
 import numpy as np
 import matplotlib.pyplot as plt
-from data_loader import DataLoader
+from data_loader import DataLoader, load_image_to_array
 from neural_network import apply_rotate, apply_bias, apply_activation
 from visualise import plot_scatter_points
 from sklearn.metrics import accuracy_score
@@ -96,14 +96,7 @@ class NeuralNetwork:
 # Step 1: Load and visualize data
 print("Loading data...")
 data_loader = DataLoader()
-data = data_loader.get_train_test_val_split(
-    'Libian_desert_data.csv', 
-    scale_features = False,
-    train_ratio=0.9,
-    test_ratio=0.1,
-    val_ratio=0.0,
-)
-
+data = load_image_to_array(r"C:\Users\askha\Documents\Math Mod\MathModelling-25\project_2\data\aus.png")
 X_train, y_train = data['train']
 X_test, y_test = data['test']
 
@@ -123,42 +116,10 @@ print("Adding layer 2...")
 model.add_layer(Layer(rotation_angle=0.05*np.pi, bias=-26, activation='abs', columns=[0, 1]))
 #model.visualize_current_transformation(X_train, y_train)
 
-print("Adding layer 3...")
-model.add_layer(Layer(rotation_angle=0.12*np.pi, bias=-70, activation='abs', columns=[0, 1]))
-#model.visualize_current_transformation(X_train, y_train)
-
-print("Adding layer 4...")
-model.add_layer(Layer(rotation_angle=0.0*np.pi, bias=-35, activation='abs', columns=[0, 1]))
-#model.visualize_current_transformation(X_train, y_train)
-
-print("Adding layer 5...")
-model.add_layer(Layer(rotation_angle=-0.14*np.pi, bias=-40, activation='abs', columns=[0, 1]))
-#model.visualize_current_transformation(X_train, y_train)
-
-print("Adding layer 6...")
-model.add_layer(Layer(rotation_angle=0.05*np.pi, bias=-30, activation='abs', columns=[0, 1]))
-#model.visualize_current_transformation(X_train, y_train)
-
-print("Adding layer 7...")
-model.add_layer(Layer(rotation_angle=-0.17*np.pi, bias=-14, activation='abs', columns=[0, 1]))
-#model.visualize_current_transformation(X_train, y_train)
-
-print("Adding layer 8...")
-model.add_layer(Layer(rotation_angle=-0.34*np.pi, bias=80, activation='abs', columns=[0, 1]))
-#model.visualize_current_transformation(X_train, y_train)
-
-print("Adding layer 9...")
-model.add_layer(Layer(rotation_angle=0.17*np.pi, bias=-60, activation='abs', columns=[0, 1]))
-model.visualize_current_transformation(X_train, y_train)
-
-print("Adding layer 10...")
-model.add_layer(Layer(rotation_angle=-0.20*np.pi, bias=0, activation='none', columns=[0, 1]))
-model.visualize_current_transformation(X_train, y_train)
-
 
 print("Adding layer final layer for visualisation.")
-#model.add_layer(Layer(rotation_angle=-0.24 * np.pi, bias=-10, activation='none', columns=[0, 1]))
-#model.visualize_current_transformation(X_train, y_train)
+model.add_layer(Layer(rotation_angle=0.47 * np.pi, bias=38, activation='none', columns=[0, 1]))
+model.visualize_current_transformation(X_train, y_train)
 
 # Step 3: Evaluate the model
 print("Evaluating model on training dataset...")
