@@ -115,35 +115,24 @@ plot_scatter_points(train_data, [0, 0])
 print("Building neural network and visualizing transformations...")
 model = NeuralNetwork()
 
-
 print("Adding layer 1...")
-model.add_layer(Layer(rotation_angle=-0.45 * np.pi, bias=-340, activation='none', columns=[0, 1]))
+model.add_layer(Layer(rotation_angle=-0.45 * np.pi, bias=-380, activation='leakyrelu', columns=[0, 1]))
 #model.visualize_current_transformation(X_train, y_train)
 
 print("Adding layer 2...")
-model.add_layer(Layer(rotation_angle=-0.36 * np.pi, bias=130, activation='abs', columns=[0, 1]))
+model.add_layer(Layer(rotation_angle=-0.0 * np.pi, bias=-0, activation='abs', columns=[0, 1]))
 #model.visualize_current_transformation(X_train, y_train)
 
 print("Adding layer 3...")
-model.add_layer(Layer(rotation_angle=1.00 * np.pi, bias=0, activation='abs', columns=[0, 1]))
+model.add_layer(Layer(rotation_angle=-0.40 * np.pi, bias=160, activation='abs', columns=[0, 1]))
 #model.visualize_current_transformation(X_train, y_train)
 
-print("Adding layer 5...")
-model.add_layer(Layer(rotation_angle=-0.60 * np.pi, bias=-120, activation='abs', columns=[0, 1]))
+print("Adding layer 4...")
+model.add_layer(Layer(rotation_angle=-0.18 * np.pi, bias=50, activation='abs', columns=[0, 1]))
 #model.visualize_current_transformation(X_train, y_train)
-
-print("Adding layer 6...")
-model.add_layer(Layer(rotation_angle=-0.0 * np.pi, bias=-60, activation='abs', columns=[0, 1]))
-#model.visualize_current_transformation(X_train, y_train)
-
-print("Adding layer 6...")
-model.add_layer(Layer(rotation_angle=0.25 * np.pi, bias=-70, activation='none', columns=[0, 1]))
-#model.visualize_current_transformation(X_train, y_train)
-
-
 
 print("Adding layer final layer for visualisation.")
-model.add_layer(Layer(rotation_angle=1.0 * np.pi, bias=-0, activation='sigmoid', columns=[0, 1]))
+model.add_layer(Layer(rotation_angle=0.30 * np.pi + np.pi, bias=170, activation='none', columns=[0, 1]))
 model.visualize_current_transformation(X_train, y_train)
 
 # changes missing values that to zero
@@ -160,4 +149,4 @@ test_accuracy = model.evaluate(X_test, y_test)
 print(f"Training accuracy: {train_accuracy:.4f}")
 print(f"Test accuracy: {test_accuracy:.4f}")
 
-# %%
+ # %%
