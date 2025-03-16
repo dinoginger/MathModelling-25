@@ -35,6 +35,8 @@ def apply_activation(input_array: np.ndarray, activation: str = 'abs', columns=N
         return 1 / (1 + np.exp(-x))
     def _tanh_func(x):
         return np.tanh(x)
+    def _leakyrelu_func(x):
+        return np.maximum(0.01 * x, x)
     def _no_activation(x):
         return x
 
@@ -46,6 +48,8 @@ def apply_activation(input_array: np.ndarray, activation: str = 'abs', columns=N
         act_func = _sigmoid_func
     elif activation == 'tanh':
         act_func = _tanh_func
+    elif activation == 'leakyrelu':
+        act_func = _leakyrelu_func
     elif activation == 'none':
         act_func = _no_activation
     else:

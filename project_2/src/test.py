@@ -96,7 +96,14 @@ class NeuralNetwork:
 # Step 1: Load and visualize data
 print("Loading data...")
 data_loader = DataLoader()
-data = load_image_to_array(r"C:\Users\askha\Documents\Math Mod\MathModelling-25\project_2\data\aus.png")
+data = data_loader.get_train_test_val_split(
+    'aus.csv', 
+    scale_features = False,
+    train_ratio=0.9,
+    test_ratio=0.1,
+    val_ratio=0.0,
+)
+
 X_train, y_train = data['train']
 X_test, y_test = data['test']
 
@@ -109,19 +116,47 @@ print("Building neural network and visualizing transformations...")
 model = NeuralNetwork()
 
 print("Adding layer 1...")
-model.add_layer(Layer(rotation_angle=-0.42 * np.pi, bias=-54, activation='abs', columns=[0, 1]))
-#model.visualize_current_transformation(X_train, y_train)
-
-print("Adding layer 2...")
-model.add_layer(Layer(rotation_angle=0.05*np.pi, bias=-26, activation='abs', columns=[0, 1]))
-#model.visualize_current_transformation(X_train, y_train)
-
-
-print("Adding layer final layer for visualisation.")
-model.add_layer(Layer(rotation_angle=0.47 * np.pi, bias=38, activation='none', columns=[0, 1]))
+model.add_layer(Layer(rotation_angle=-0.0 * np.pi, bias=-300, activation='leakyrelu', columns=[0, 1]))
 model.visualize_current_transformation(X_train, y_train)
 
+
+#sigmoid
+#print("Adding layer 1...")
+#model.add_layer(Layer(rotation_angle=-0.45 * np.pi, bias=-340, activation='none', columns=[0, 1]))
+#model.visualize_current_transformation(X_train, y_train)
+
+#print("Adding layer 2...")
+#model.add_layer(Layer(rotation_angle=-0.36 * np.pi, bias=130, activation='abs', columns=[0, 1]))
+#model.visualize_current_transformation(X_train, y_train)
+
+#print("Adding layer 3...")
+#model.add_layer(Layer(rotation_angle=1.00 * np.pi, bias=0, activation='abs', columns=[0, 1]))
+#model.visualize_current_transformation(X_train, y_train)
+
+#print("Adding layer 5...")
+#model.add_layer(Layer(rotation_angle=-0.60 * np.pi, bias=-120, activation='abs', columns=[0, 1]))
+#model.visualize_current_transformation(X_train, y_train)
+
+#print("Adding layer 6...")
+#model.add_layer(Layer(rotation_angle=-0.0 * np.pi, bias=-60, activation='abs', columns=[0, 1]))
+#model.visualize_current_transformation(X_train, y_train)
+
+#print("Adding layer 6...")
+#model.add_layer(Layer(rotation_angle=0.25 * np.pi, bias=-140, activation='none', columns=[0, 1]))
+#model.visualize_current_transformation(X_train, y_train)
+
+
+
+#print("Adding layer final layer for visualisation.")
+#model.add_layer(Layer(rotation_angle=0.0 * np.pi, bias=-0, activation='sigmoid', columns=[0, 1]))
+#model.visualize_current_transformation(X_train, y_train)
+
+# changes missing values that to zero
+y_train = np.nan_to_num(y_train, nan=0)
+y_test = np.nan_to_num(y_test, nan=0)
+
 # Step 3: Evaluate the model
+
 print("Evaluating model on training dataset...")
 train_accuracy = model.evaluate(X_train, y_train)
 print("Evaluating model on training dataset...")
